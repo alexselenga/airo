@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<schemadesigner version="6.5">
+<source>
+<database charset="utf8" collation="utf8_general_ci">airo</database>
+</source>
+<canvas zoom="100">
+<tables>
+<table name="article" view="colnames">
+<left>354</left>
+<top>185</top>
+<width>122</width>
+<height>177</height>
+<sql_create_table>CREATE TABLE `article` (
+  `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
+  `category_id` int(10) unsigned NOT NULL COMMENT 'Категория',
+  `name` varchar(255) NOT NULL COMMENT 'Название',
+  `description` text COMMENT 'Описание',
+  `is_active` tinyint(1) NOT NULL DEFAULT '0' COMMENT 'Активность',
+  `updated` timestamp NULL DEFAULT NULL COMMENT 'Редактирование',
+  PRIMARY KEY (`id`),
+  KEY `article-category-idx` (`category_id`),
+  CONSTRAINT `article-category-idx` FOREIGN KEY (`category_id`) REFERENCES `category` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8</sql_create_table>
+</table>
+<table name="category" view="colnames">
+<left>123</left>
+<top>98</top>
+<width>116</width>
+<height>172</height>
+<sql_create_table>CREATE TABLE `category` (
+  `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
+  `name` varchar(255) NOT NULL COMMENT 'Название',
+  `description` text COMMENT 'Описание',
+  `is_active` tinyint(1) NOT NULL DEFAULT '0' COMMENT 'Активность',
+  `updated` timestamp NULL DEFAULT NULL COMMENT 'Редактирование',
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8</sql_create_table>
+</table>
+</tables>
+</canvas>
+</schemadesigner>
