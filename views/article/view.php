@@ -1,5 +1,6 @@
 <?php
 
+use app\models\Article;
 use yii\helpers\Html;
 use yii\widgets\DetailView;
 
@@ -33,8 +34,11 @@ $this->params['breadcrumbs'][] = $this->title;
             'category_id',
             'name',
             'description:ntext',
-            'is_active',
-            'updated',
+            [
+                'attribute' => 'is_active',
+                'label' => 'Состояние',
+                'value' => Article::STATES[$model->is_active],
+            ],
         ],
     ]) ?>
 

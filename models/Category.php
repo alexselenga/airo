@@ -11,12 +11,16 @@ use Yii;
  * @property string $name Название
  * @property string|null $description Описание
  * @property int $is_active Активность
- * @property string|null $updated Редактирование
  *
  * @property Article[] $articles
  */
 class Category extends \yii\db\ActiveRecord
 {
+    const STATES = [
+        1 => 'Активна',
+        0 => 'Не активна',
+    ];
+
     /**
      * {@inheritdoc}
      */
@@ -34,7 +38,6 @@ class Category extends \yii\db\ActiveRecord
             [['name'], 'required'],
             [['description'], 'string'],
             [['is_active'], 'integer'],
-            [['updated'], 'safe'],
             [['name'], 'string', 'max' => 255],
         ];
     }
@@ -48,8 +51,7 @@ class Category extends \yii\db\ActiveRecord
             'id' => 'ID',
             'name' => 'Название',
             'description' => 'Описание',
-            'is_active' => 'Активность',
-            'updated' => 'Редактирование',
+            'is_active' => 'Активна',
         ];
     }
 
@@ -70,5 +72,14 @@ class Category extends \yii\db\ActiveRecord
     public static function find()
     {
         return new CategoryQuery(get_called_class());
+    }
+
+    /**
+     * Возвращает массив названий категорий.
+     *
+     * @return array
+     */
+    public static function getList() {
+        return Category::find()->select('name')->indexBy('id')->column(); //->where(['is_active' => 1]) - для активных категорий
     }
 }

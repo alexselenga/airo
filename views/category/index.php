@@ -1,5 +1,6 @@
 <?php
 
+use app\models\Category;
 use yii\helpers\Html;
 use yii\grid\GridView;
 use yii\widgets\Pjax;
@@ -25,13 +26,17 @@ $this->params['breadcrumbs'][] = $this->title;
         'dataProvider' => $dataProvider,
         'filterModel' => $searchModel,
         'columns' => [
-            ['class' => 'yii\grid\SerialColumn'],
-
             'id',
             'name',
             'description:ntext',
-            'is_active',
-            'updated',
+            [
+                'attribute' => 'is_active',
+                'label' => 'Состояние',
+                'value' => function (Category $article) {
+                    return Category::STATES[$article->is_active];
+                },
+                'filter' => Category::STATES,
+            ],
 
             ['class' => 'yii\grid\ActionColumn'],
         ],

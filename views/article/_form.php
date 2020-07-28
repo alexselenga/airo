@@ -1,5 +1,6 @@
 <?php
 
+use app\models\Category;
 use yii\helpers\Html;
 use yii\widgets\ActiveForm;
 
@@ -12,15 +13,13 @@ use yii\widgets\ActiveForm;
 
     <?php $form = ActiveForm::begin(); ?>
 
-    <?= $form->field($model, 'category_id')->textInput() ?>
+    <?= $form->field($model, 'category_id')->dropDownList(Category::getList(), ['prompt' => 'Выберите категорию...']) ?>
 
     <?= $form->field($model, 'name')->textInput(['maxlength' => true]) ?>
 
     <?= $form->field($model, 'description')->textarea(['rows' => 6]) ?>
 
-    <?= $form->field($model, 'is_active')->textInput() ?>
-
-    <?= $form->field($model, 'updated')->textInput() ?>
+    <?= $form->field($model, 'is_active')->checkbox() ?>
 
     <div class="form-group">
         <?= Html::submitButton('Сохранить', ['class' => 'btn btn-success']) ?>

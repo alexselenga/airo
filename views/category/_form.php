@@ -16,9 +16,7 @@ use yii\widgets\ActiveForm;
 
     <?= $form->field($model, 'description')->textarea(['rows' => 6]) ?>
 
-    <?= $form->field($model, 'is_active')->textInput() ?>
-
-    <?= $form->field($model, 'updated')->textInput() ?>
+    <?= $form->field($model, 'is_active')->checkbox() ?>
 
     <div class="form-group">
         <?= Html::submitButton('Сохранить', ['class' => 'btn btn-success']) ?>

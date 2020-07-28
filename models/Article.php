@@ -12,12 +12,16 @@ use Yii;
  * @property string $name Название
  * @property string|null $description Описание
  * @property int $is_active Активность
- * @property string|null $updated Редактирование
  *
  * @property Category $category
  */
 class Article extends \yii\db\ActiveRecord
 {
+    const STATES = [
+        1 => 'Активна',
+        0 => 'Не активна',
+    ];
+
     /**
      * {@inheritdoc}
      */
@@ -35,7 +39,6 @@ class Article extends \yii\db\ActiveRecord
             [['category_id', 'name'], 'required'],
             [['category_id', 'is_active'], 'integer'],
             [['description'], 'string'],
-            [['updated'], 'safe'],
             [['name'], 'string', 'max' => 255],
             [['category_id'], 'exist', 'skipOnError' => true, 'targetClass' => Category::className(), 'targetAttribute' => ['category_id' => 'id']],
         ];
@@ -51,8 +54,7 @@ class Article extends \yii\db\ActiveRecord
             'category_id' => 'Категория',
             'name' => 'Название',
             'description' => 'Описание',
-            'is_active' => 'Активность',
-            'updated' => 'Редактирование',
+            'is_active' => 'Активна',
         ];
     }
 

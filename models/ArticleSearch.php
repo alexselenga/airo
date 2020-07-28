@@ -18,7 +18,7 @@ class ArticleSearch extends Article
     {
         return [
             [['id', 'category_id', 'is_active'], 'integer'],
-            [['name', 'description', 'updated'], 'safe'],
+            [['name', 'description'], 'safe'],
         ];
     }
 
@@ -40,13 +40,21 @@ class ArticleSearch extends Article
      */
     public function search($params)
     {
-        $query = Article::find();
+        $query = Article::find()->joinWith('category');
 
         // add conditions that should always apply here
 
         $dataProvider = new ActiveDataProvider([
             'query' => $query,
+            'pagination' => [
+                'pageSize' => 10,
+            ],
         ]);
+
+        $dataProvider->sort->attributes['category_id'] = [
+            'asc' => ['category.name' => SORT_ASC],
+            'desc' => ['category.name' => SORT_DESC],
+        ];
 
         $this->load($params);
 
@@ -58,14 +66,13 @@ class ArticleSearch extends Article
 
         // grid filtering conditions
         $query->andFilterWhere([
-            'id' => $this->id,
-            'category_id' => $this->category_id,
-            'is_active' => $this->is_active,
-            'updated' => $this->updated,
+            'article.id' => $this->id,
+            'article.category_id' => $this->category_id,
+            'article.is_active' => $this->is_active,
         ]);
 
-        $query->andFilterWhere(['like', 'name', $this->name])
-            ->andFilterWhere(['like', 'description', $this->description]);
+        $query->andFilterWhere(['like', 'article.name', $this->name])
+            ->andFilterWhere(['like', 'article.description', $this->description]);
 
         return $dataProvider;
     }

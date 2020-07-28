@@ -18,7 +18,7 @@ class CategorySearch extends Category
     {
         return [
             [['id', 'is_active'], 'integer'],
-            [['name', 'description', 'updated'], 'safe'],
+            [['name', 'description'], 'safe'],
         ];
     }
 
@@ -46,6 +46,9 @@ class CategorySearch extends Category
 
         $dataProvider = new ActiveDataProvider([
             'query' => $query,
+            'pagination' => [
+                'pageSize' => 10,
+            ],
         ]);
 
         $this->load($params);
@@ -60,7 +63,6 @@ class CategorySearch extends Category
         $query->andFilterWhere([
             'id' => $this->id,
             'is_active' => $this->is_active,
-            'updated' => $this->updated,
         ]);
 
         $query->andFilterWhere(['like', 'name', $this->name])
